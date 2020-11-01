@@ -153,6 +153,7 @@ def clearCan():
     sIndex = 0
     # 清空画布
     canvas1.delete(ALL)
+    inputEntity.delete(0, 'end')
 
 
 if __name__ == '__main__':

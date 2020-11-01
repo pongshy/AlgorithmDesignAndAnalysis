@@ -90,9 +90,13 @@ if __name__ == '__main__':
         print(maxSize)
 
         display(len(str1) - 1, len(str2) - 1, list())
+        print("所有公共子序列: ")
         for i in range(len(res)):
-            print(res[i])
-
+            for elm in res[i]:
+                print(elm, end=' ')
+            print()
+        # 初始化所有最长公共子序列存储列表res
+        res = list()
         signal = int(input("\n是否继续? 是: 1, 否: 0.\n请输入:"))
         if signal == 0:
             break

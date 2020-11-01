@@ -63,6 +63,7 @@ def show(matrix):
 
 
 if __name__ == '__main__':
+    label = 1
     while True:
         str1 = input("请输入第一组序列: ").split()
         str2 = input("请输入第二组序列: ").split()
@@ -81,10 +82,9 @@ if __name__ == '__main__':
         store = [[[] for j in range(size)] for i in range(size)]
         # dp获取滚动数组
         LCSLength(len(str1) - 1, len(str2) - 1, str1, str2, c, b)
-        show(c)
-        print()
-        show(b)
-        print()
+        # 输出
+        print("Case: ", label)
+        label += 1
         print("最长公共子序列长度为：", end='')
         maxSize = c[len(str1) - 1][len(str2) - 1]
         print(maxSize)
@@ -95,6 +95,11 @@ if __name__ == '__main__':
             for elm in res[i]:
                 print(elm, end=' ')
             print()
+        print()
+        show(c)
+        print()
+        show(b)
+        print()
         # 初始化所有最长公共子序列存储列表res
         res = list()
         signal = int(input("\n是否继续? 是: 1, 否: 0.\n请输入:"))

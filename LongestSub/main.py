@@ -1,5 +1,7 @@
 # This is a sample Python script.
 import copy
+import tkinter as tk
+from tkinter import ALL
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 b = list()
@@ -66,48 +68,120 @@ def show(matrix):
             print()
 
 
+
+def tkinterDisplay():
+    global c
+    global b
+    global str1
+    global str2
+    global res
+    canvas1.delete(ALL)
+    str1 = var1.get().split(" ")
+    str2 = var2.get().split(" ")
+
+    str1.insert(0, "0")
+    str2.insert(0, "0")
+
+    size = 0
+    if len(str1) > len(str2):
+        size = len(str1)
+    else:
+        size = len(str2)
+    # 初始化
+    c = [[0 for j in range(size)] for i in range(size)]
+    b = [[0 for j in range(size)] for i in range(size)]
+    # dp获取滚动数组
+    LCSLength(len(str1) - 1, len(str2) - 1, str1, str2, c, b)
+
+    canvas1.create_text(170, 150, text="最长公共子序列长度为: " + str(c[len(str1) - 1][len(str2) - 1]), font=3)
+    # 构造所有最长公共子序列
+    display(len(str1) - 1, len(str2) - 1, list())
+    canvas1.create_text(170, 175, text="所有最长公共子序列: ", font=3)
+    i = 1
+    for seq in res:
+        tmpStr = ""
+        for elem in seq:
+            tmpStr += elem
+            tmpStr += ' '
+        canvas1.create_text(170, 180 + i * 18, text=tmpStr, font=2)
+        i += 1
+    res = list()
+
+
+
+# 清空文本框
+def clearCan():
+    inputEntity.delete(0, 'end')
+    inputEntity2.delete(0, 'end')
+
+
 if __name__ == '__main__':
-    label = 1
-    while True:
-        str1 = input("请输入第一组序列: ").split()
-        str2 = input("请输入第二组序列: ").split()
 
-        str1.insert(0, "0")
-        str2.insert(0, "0")
+    root = tk.Tk()
+    root.title("矩阵连乘")
+    canvas1 = tk.Canvas(root, width=350, height=600)
+    canvas1.pack()
 
-        size = 0
-        if len(str1) > len(str2):
-            size = len(str1)
-        else:
-            size = len(str2)
-        # 初始化
-        c = [[0 for j in range(size)] for i in range(size)]
-        b = [[0 for j in range(size)] for i in range(size)]
-        store = [[[] for j in range(size)] for i in range(size)]
-        # dp获取滚动数组
-        LCSLength(len(str1) - 1, len(str2) - 1, str1, str2, c, b)
-        # 输出
-        print("Case: ", label)
-        label += 1
-        print("最长公共子序列长度为：", end='')
-        maxSize = c[len(str1) - 1][len(str2) - 1]
-        print(maxSize)
+    var1 = tk.StringVar()
+    var2 = tk.StringVar()
 
-        display(len(str1) - 1, len(str2) - 1, list())
-        print("所有公共子序列: ")
-        for i in range(len(res)):
-            for elm in res[i]:
-                print(elm, end=' ')
-            print()
-        print()
-        show(c)
-        print()
-        show(b)
-        print()
-        # 初始化所有最长公共子序列存储列表res
-        res = list()
-        signal = int(input("\n是否继续? 是: 1, 否: 0.\n请输入:"))
-        if signal == 0:
-            break
-        print()
-    print("退出成功!")
+    tk.Label(root, text='请输入序列1: ').place(x=15, y=10)
+    inputEntity = tk.Entry(root, textvariable=var1)
+    inputEntity.place(x=130, y=10)
+
+    tk.Label(root, text="请输入序列2: ").place(x=15, y=40)
+    inputEntity2 = tk.Entry(root, textvariable=var2)
+    inputEntity2.place(x=130, y=40)
+
+    button1 = tk.Button(root, text='确定', font=10, command=tkinterDisplay)
+    button1.place(x=100, y=75)
+
+    button3 = tk.Button(root, text='清空', font=10, command=clearCan)
+    button3.place(x=200, y=75)
+
+    root.mainloop()
+
+    # label = 1
+    # while True:
+    #     str1 = input("请输入第一组序列: ").split()
+    #     str2 = input("请输入第二组序列: ").split()
+    #
+    #     str1.insert(0, "0")
+    #     str2.insert(0, "0")
+    #
+    #     size = 0
+    #     if len(str1) > len(str2):
+    #         size = len(str1)
+    #     else:
+    #         size = len(str2)
+    #     # 初始化
+    #     c = [[0 for j in range(size)] for i in range(size)]
+    #     b = [[0 for j in range(size)] for i in range(size)]
+    #     store = [[[] for j in range(size)] for i in range(size)]
+    #     # dp获取滚动数组
+    #     LCSLength(len(str1) - 1, len(str2) - 1, str1, str2, c, b)
+    #     # 输出
+    #     print("Case: ", label)
+    #     label += 1
+    #     print("最长公共子序列长度为：", end='')
+    #     maxSize = c[len(str1) - 1][len(str2) - 1]
+    #     print(maxSize)
+    #
+    #     display(len(str1) - 1, len(str2) - 1, list())
+    #     print("所有公共子序列: ")
+    #     for i in range(len(res)):
+    #         for elm in res[i]:
+    #             print(elm, end=' ')
+    #         print()
+    #     print()
+    #     show(c)
+    #     print()
+    #     show(b)
+    #     print()
+    #     # 初始化所有最长公共子序列存储列表res
+    #     res = list()
+    #     signal = int(input("\n是否继续? 是: 1, 否: 0.\n请输入:"))
+    #     if signal == 0:
+    #         break
+    #     print()
+    # print("退出成功!")
